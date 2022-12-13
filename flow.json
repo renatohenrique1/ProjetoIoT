@@ -1,0 +1,178 @@
+[
+    {
+        "id": "fca8a8e07b10dcf6",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4f24fce947f4bdb4",
+        "type": "mqtt in",
+        "z": "fca8a8e07b10dcf6",
+        "name": "",
+        "topic": "topico_sensor_temp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "52e721e05ac0c6cb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "1e3f4010203f14d3",
+                "5c54827c8e241eae"
+            ]
+        ]
+    },
+    {
+        "id": "1e3f4010203f14d3",
+        "type": "debug",
+        "z": "fca8a8e07b10dcf6",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5c54827c8e241eae",
+        "type": "switch",
+        "z": "fca8a8e07b10dcf6",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "92940ce43eade460",
+                "28e54efd8b1212a1"
+            ]
+        ]
+    },
+    {
+        "id": "92940ce43eade460",
+        "type": "function",
+        "z": "fca8a8e07b10dcf6",
+        "name": "Alarme temperatura baixa",
+        "func": "var uni = '°C - ';\nvar status = 'Temperatura muito baixa'; \nmsg.payload = msg.payload + uni + status\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "958513cb78f4daef"
+            ]
+        ]
+    },
+    {
+        "id": "958513cb78f4daef",
+        "type": "node-red-contrib-whatsapp-cmb-send-message",
+        "z": "fca8a8e07b10dcf6",
+        "name": "MSG_WhatsApp",
+        "account": "88fbdcd51b904641",
+        "text": "payload",
+        "inputtypemessage": "msg",
+        "rejectssl": false,
+        "x": 870,
+        "y": 280,
+        "wires": [
+            [
+                "e1ccb930832071a9"
+            ]
+        ]
+    },
+    {
+        "id": "28e54efd8b1212a1",
+        "type": "function",
+        "z": "fca8a8e07b10dcf6",
+        "name": "Alarme temperatura alta",
+        "func": "var uni = '°C - ';\nvar status = 'Temperatura muito alta'; \nmsg.payload = msg.payload + uni + status\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 280,
+        "wires": [
+            [
+                "958513cb78f4daef"
+            ]
+        ]
+    },
+    {
+        "id": "e1ccb930832071a9",
+        "type": "debug",
+        "z": "fca8a8e07b10dcf6",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "52e721e05ac0c6cb",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "88fbdcd51b904641",
+        "type": "node-red-contrib-whatsapp-cmb-account",
+        "name": "MSG_WhatsApp"
+    }
+]
