@@ -9,10 +9,10 @@
 // =======================
 
 // Configuracoes da rede WiFi
-const char* ssid = "Net-Virtua-3709-2.4G"; //SSID da rede WiFi
-const char* password = "4011437090"; //senha da rede WiFi
+const char* ssid = "iPhone 13 Pro Max"; //SSID da rede WiFi
+const char* password = "renato345"; //senha da rede WiFi
 
-const char* mqtt_server = "mqtt://broker.hivemq.com:1883"; //URL do broker MQTT
+const char* mqtt_server = "broker.hivemq.com"; //URL do broker MQTT
 const int mqtt_server_port = 1883; //porta do broker MQTT
 
 // Variaveis globais e objetos
@@ -23,11 +23,11 @@ long lastMsg = 0;
 
 String clientID = "ESP8266Client-"; //identificacao do cliente
 
-String topicoPrefixo = "MACK42005426"; //para o prefixo do topico, utilizar MACK seguido do TIA
+String topicoPrefixo = "topico_sensor_temp"; //para o prefixo do topico, utilizar MACK seguido do TIA
 String topicoTodos = topicoPrefixo + "/#"; //para retornar todos os topicos
 String topico_0 = topicoPrefixo + "/hello"; //topico para teste
 String mensagem_0 = "NodeMCU Connected"; //mensagem para o topico 0
-String topico_1 = topicoPrefixo + "/sensor1"; //topico para o sensor 1
+String Alarme_temperatura_baixa = topicoPrefixo; //topico para o sensor 1
 String mensagem_1 = ""; //mensagem para o topico 1
 String topico_2 = topicoPrefixo + "/atuador1"; //topico para o atuador 1
 String mensagem_2 = ""; //mensagem para o topico 2
@@ -123,85 +123,33 @@ void setup() {
 // loop()
 // ======
 
+const int sensorPin = A0; //PINO ANALÓGICO UTILIZADO PELO SENSOR
+float temperatura = 0; //VARIÁVEL DO TIPO FLOAT
+
+
 void loop() {
+
+  temperatura = (analogRead(sensorPin) * 0.0048828125 * 100); //VARIÁVEL RECEBE A TEMPERATURA MEDIDA
+  Serial.print("Temperatura = "); //IMPRIME O TEXTO NA SERIAL
+  Serial.print(temperatura); //IMPRIME NA SERIAL A TEMPERATURA MEDIDA
+  Serial.println(" C"); //IMPRIME O TEXTO NA SERIAL
+  delay(2000);
+  
   if (!mqtt_client.connected()) {
     reconnect();
   }
   mqtt_client.loop(); //processa as mensagens e mantem a conexao com o broker MQTT
 
   //nesta parte colocar a leitura do sensor de temperatura
-float sVoltage;
 
-
-
-void setup() 
-
-{
-
-  Serial.begin(9600);
-
-  pinMode(D1, OUTPUT);
-
-  StartMQTT();
-
-}
-
-}
-
-void loop()      
-
-{
-
-  ConsultaConexoes();
-
-  float xVal = analogRead(sensorPin);
-
-
-
-  sVoltage = (xVal*3100.0)/1023;
-
-
-
-  tempC = sVoltage;
-
-  Serial.print("A temperatura é de = ");
-
-  Serial.println(tempC);
-
-  delay(3000);
-
-
-
-  digitalWrite(D0, HIGH);
-
-  delay(1000);
-
-
-
-  digitalWrite(D0, LOW);
-
-  delay(1000);
-
-
-
-  sprintf(msg, "%d", tempC);
-
-  
-
-  MQTT.publish(TOPICO_PUBLISH_SENSOR_TEMP, msg);
-
-  MQTT.loop();
-
-  delay(3000);
-
-}
+ 
   //mensagem_1 = valor lido do sensor de temperatura
 
   //Publica mensagem
   long now = millis();
   if (now - lastMsg > 2000) {
     lastMsg = now;
-    mqtt_client.publish(topico_1.c_str(), mensagem_1.c_str());
+    mqtt_client.publish(Alarme_temperatura_baixa.c_str(), mensagem_1.c_str());
   }
   
   //Subscreve mensagem
