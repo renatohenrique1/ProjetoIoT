@@ -38,7 +38,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 420,
@@ -75,14 +76,14 @@
         "id": "92940ce43eade460",
         "type": "function",
         "z": "fca8a8e07b10dcf6",
-        "name": "Alarme temperatura baixa",
-        "func": "var uni = '°C - ';\nvar status = 'Temperatura muito baixa'; \nmsg.payload = msg.payload + uni + status\nreturn msg;",
+        "name": "Alarme_temperatura_baixa",
+        "func": "var temperatura = '°C - ';\nvar status = 'Temperatura muito baixa'; \nmsg.payload = msg.payload + temperatura +status\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 590,
+        "x": 600,
         "y": 220,
         "wires": [
             [
@@ -98,12 +99,12 @@
         "account": "88fbdcd51b904641",
         "text": "payload",
         "inputtypemessage": "msg",
-        "rejectssl": false,
+        "rejectssl": true,
         "x": 870,
         "y": 280,
         "wires": [
             [
-                "e1ccb930832071a9"
+                "40230b8cacd15db2"
             ]
         ]
     },
@@ -111,8 +112,8 @@
         "id": "28e54efd8b1212a1",
         "type": "function",
         "z": "fca8a8e07b10dcf6",
-        "name": "Alarme temperatura alta",
-        "func": "var uni = '°C - ';\nvar status = 'Temperatura muito alta'; \nmsg.payload = msg.payload + uni + status\nreturn msg;",
+        "name": "Alarme_temperatura_alta",
+        "func": "var x = '°C - ';\nvar status = 'Temperatura muito alta'; \nmsg.payload = msg.payload + x + status\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -127,7 +128,7 @@
         ]
     },
     {
-        "id": "e1ccb930832071a9",
+        "id": "40230b8cacd15db2",
         "type": "debug",
         "z": "fca8a8e07b10dcf6",
         "name": "debug 2",
